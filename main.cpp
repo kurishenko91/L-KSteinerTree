@@ -45,7 +45,10 @@ void readFile(char *name)
 
     for (int i = 0; i < N; i++) {
         for (int j = 0; j < N; j++)
-        G[i][j] = inf;
+        if (i == j)
+            G[i][j] = 0;
+        else
+            G[i][j] = inf;
     }
 
 
