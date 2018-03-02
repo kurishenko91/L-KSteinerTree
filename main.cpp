@@ -9,6 +9,8 @@ int N, E, T;
 int **G;
 int *Ts;
 
+const int inf = INT_MAX;
+
 void readFile(char *name)
 {
     ifstream input;
@@ -41,11 +43,19 @@ void readFile(char *name)
     for (int i = 0; i < N; i++)
         G[i] = new int[N];
 
+    for (int i = 0; i < N; i++) {
+        for (int j = 0; j < N; j++)
+        G[i][j] = inf;
+    }
+
+
+
     int a, b, w;
     for (int i = 0; i < E; i++) {
         input >> c;
         input >> a >> b >> w;
         G[a - 1][b - 1] = w;
+        G[b - 1][a - 1] = w;
     }
 
     #ifdef DEBUG
