@@ -1,12 +1,13 @@
 #include <iostream>
 #include <fstream>
+#include <string>
 
 using namespace std;
 
 //#define DEBUG
 
 int N, E, T;
-int **G;
+int **G, **D;
 int *Ts;
 
 const int inf = INT_MAX;
@@ -149,15 +150,43 @@ void readFile(char *name)
     input.close();
 }
 
+template<typename T>
+T min(T a, T b)
+{
+	return a < b ? a : b;
+}
+
+
+void FloydWarshall()
+{
+	D = new int*[N];
+	for (int i = 0; i < N; i++)
+		D[i] = new int[N];
+
+	for (int i = 0; i < N; ++i)
+		for (int j = 0; j < N; ++j)
+			D[i][j] = G[i][j];
+	int sum;
+	for (int k = 0; k < N; ++k)
+		for (int i = 0; i < N; ++i)
+			for (int j = 0; j < N; ++j)
+			{
+				if (D[i][k] == inf || D[k][j] == inf)
+					sum = inf;
+				else sum = D[i][k] + D[k][j];
+				D[i][j] = min(D[i][j], sum);
+			}
+				
+}
+
 int main(int argc, char** argv)
 {
-
-    if (argc > 3)
-        readFile(argv[3]);
+    if (argc >= 2)
+        readFile(argv[1]);
     else {
         cout << "Input string format error" << endl;
         return 1;
     }
-
+	FloydWarshall();
     return 0;
 }
